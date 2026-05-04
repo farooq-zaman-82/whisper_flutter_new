@@ -18,8 +18,11 @@ set_target_properties(whisper_flutter PROPERTIES
   OUTPUT_NAME "whisper"
 )
 
+# Baseline AArch64 (ARMv8.0-A): avoids ARMv8.2/dotprod/fp16 codegen that crashes on
+# older cores (e.g. Cortex-A73) with SIGILL. ggml.c uses __ARM_FEATURE_DOTPROD only when enabled.
 if (${ANDROID_ABI} STREQUAL "arm64-v8a")
-    target_compile_options(whisper PRIVATE -march=armv8.2-a+fp16)
+    target_compile_options(whisper PRIVATE -march=armv8-a -mtune=generic)
+    target_compile_options(whisper_flutter PRIVATE -march=armv8-a -mtune=generic)
 elseif (${ANDROID_ABI} STREQUAL "armeabi-v7a")
     target_compile_options(whisper PRIVATE -mfpu=neon-vfpv4)
 endif ()
