@@ -21,16 +21,17 @@ A Flutter FFI plugin for Whisper.cpp.
   s.source_files = 'Classes/**/*'
   s.public_header_files = 'Classes**/*.h'
   s.dependency 'Flutter'
-  s.platform = :ios, '9.0'
+  s.platform = :ios, '13.0'
 
   # Flutter.framework does not contain a i386 slice.
   s.xcconfig = {
       'CLANG_CXX_LANGUAGE_STANDARD' => 'c++20',
   }
-  s.library = 'c++'
   s.pod_target_xcconfig = {
     'DEFINES_MODULE' => 'YES',
     'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'i386',
+    'OTHER_CFLAGS[arch=arm64]'   => '-march=armv8-a -mtune=generic -O3',
+    'OTHER_CXXFLAGS[arch=arm64]' => '-march=armv8-a -mtune=generic -O3',
   }
   s.swift_version = '5.0'
 end

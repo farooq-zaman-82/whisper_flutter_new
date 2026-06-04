@@ -27,7 +27,6 @@ A Flutter FFI plugin for Whisper.cpp.
   s.xcconfig = {
       'CLANG_CXX_LANGUAGE_STANDARD' => 'c++20',
   }
-  s.library = 'c++'
   s.pod_target_xcconfig = {
     'DEFINES_MODULE' => 'YES',
   }
