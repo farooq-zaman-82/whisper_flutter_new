@@ -13,7 +13,7 @@ and Android
 2. Support Android 5.0+ & iOS 13+ & MacOS 11+
 3. It is optimized and fast
 
-Supported models: tiny、base、small、medium、large-v1、large-v2
+Supported models: tiny、tiny.en (English only)、base、small、medium、large-v1、large-v2
 
 Recommended Models：base、small、medium
 
@@ -46,11 +46,12 @@ await File(jfkPath).writeAsBytes(
 );
 
 // Begin whisper transcription
-/// China: https://hf-mirror.com/ggerganov/whisper.cpp/resolve/main
-/// Other: https://huggingface.co/ggerganov/whisper.cpp/resolve/main
+// By default, tiny and tiny.en download from a Google Cloud Storage mirror
+// (https://storage.googleapis.com/rppg-project-whisper-models); all other
+// models download from Huggingface. Pass downloadHost to override, e.g.
+// China: https://hf-mirror.com/ggerganov/whisper.cpp/resolve/main
 final Whisper whisper = Whisper(
-    model: WhisperModel.base,
-    downloadHost: "https://huggingface.co/ggerganov/whisper.cpp/resolve/main"
+    model: WhisperModel.tinyEn, // English-only transcription
 );
 
 final String? whisperVersion = await whisper.getVersion();

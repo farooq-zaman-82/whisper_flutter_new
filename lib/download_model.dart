@@ -18,6 +18,9 @@ enum WhisperModel {
   /// tiny model for all languages
   tiny("tiny"),
 
+  /// tiny model, English only
+  tinyEn("tiny.en"),
+
   /// base model for all languages
   base("base"),
 
@@ -54,11 +57,23 @@ Future<String> downloadModel(
 
   Uri modelUri;
 
+  const Set<WhisperModel> gcsHostedModels = {
+    WhisperModel.tiny,
+    WhisperModel.tinyEn,
+  };
+
   if (downloadHost == null || downloadHost.isEmpty) {
-    /// Huggingface url to download model
-    modelUri = Uri.parse(
-      "https://huggingface.co/ggerganov/whisper.cpp/resolve/main/ggml-${model.modelName}.bin",
-    );
+    if (gcsHostedModels.contains(model)) {
+      /// Google Cloud Storage mirror (faster/more reliable than Huggingface)
+      modelUri = Uri.parse(
+        "https://storage.googleapis.com/rppg-project-whisper-models/ggml-${model.modelName}.bin",
+      );
+    } else {
+      /// Huggingface url to download model
+      modelUri = Uri.parse(
+        "https://huggingface.co/ggerganov/whisper.cpp/resolve/main/ggml-${model.modelName}.bin",
+      );
+    }
   } else {
     modelUri = Uri.parse(
       "$downloadHost/ggml-${model.modelName}.bin",

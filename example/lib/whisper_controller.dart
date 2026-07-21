@@ -19,12 +19,11 @@ class WhisperController extends StateNotifier<AsyncValue<TranscribeResult?>> {
 
     state = const AsyncLoading();
 
+    /// downloadHost left unset: tiny model downloads from the package's
+    /// Google Cloud Storage mirror, other models fall back to Huggingface.
+    /// Override downloadHost here to point at your own mirror, e.g.
     /// China: https://hf-mirror.com/ggerganov/whisper.cpp/resolve/main
-    /// Other: https://huggingface.co/ggerganov/whisper.cpp/resolve/main
-    final Whisper whisper = Whisper(
-        model: model,
-        downloadHost:
-            "https://huggingface.co/ggerganov/whisper.cpp/resolve/main");
+    final Whisper whisper = Whisper(model: model);
 
     final DateTime start = DateTime.now();
 
